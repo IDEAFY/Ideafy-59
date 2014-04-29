@@ -59,9 +59,7 @@ New icons and visuals are currently in development and will be designed by Rudy 
 Ideafy obviously competes in the work in progress category.
 Below are the scope of work and objectives for the 59DAYSOFCODE EVENT:
 
-/*
- * IDEAFY 59 -- What are we competing with ?
- */
+	IDEAFY 59 -- What are we competing with ?
 
 We are entering the competition with:
 
@@ -71,16 +69,14 @@ We are entering the competition with:
 
 3- a user-experience proposal (a UI refresh of Ideafy proposed by Rudy)
 
-/*
- * Roles and responsibilies - this sounds so serious... well it is... in some way
- */
+This is how we split the roles and responsibilies - (this sounds so serious... well it is... in some way)
 
-	BUSINESS PROPOSAL (lead: Vincent)
+BUSINESS PROPOSAL (lead: Vincent)
 Given the short time frame, the business proposal will not evolve much from the existing Ideafy pitch. It will include a few of the Ideafy R2 features, most importantly “official browser support”, ie. it is no longer an iPad app but a business-grade solution ready for sale.
 
 Good news is we have the product positioning, market experience, go-to-market strategy, business plan and first client feedback. All we need to do (:-0 !!!) is to provide, nice, crispy-looking and convincing deliverables.
 
-	PRODUCT PROPOSAL
+PRODUCT PROPOSAL
 A). Framework (lead: Olivier)
 The deliverable will include and feature the latest delivery of Olivier’s framework with the most notable evolutions:
 
@@ -93,7 +89,9 @@ The deliverable will include and feature the latest delivery of Olivier’s fram
 		- pass optional admin parameters for CouchUser create function
 
 B). Application (lead: Vincent)
+
 Given the short time frame and the demands of the event, only a few of the scheduled developments of Ideafy R2 can be included. A lot of the focus will be placed on the platform and client-support to ensure a ready-to-sell (not just demo) end result.
+
 	Server-side
 		Adapt / rework the server-side code to the new framework
 		Performance optimization
@@ -108,11 +106,13 @@ Given the short time frame and the demands of the event, only a few of the sched
 		UI enhancements
 		iOS (iPad), browser (chrome and safari) and mobile browser (iOS and Android) deliverables
 
-	USER EXPERIENCE PROPOSAL (lead: Rudy)
+USER EXPERIENCE PROPOSAL (lead: Rudy)
+
 One of the key differentiator of Ideafy as a business software is the user-experience concept and a new way for users to interact with enterprise software.
 While some of this is inherent to the delivery model (web-based, cloud-based, availability on any device through browsers or mobiles with rich-client experience and at anby time) a huge part is based on the look and feel of the product.
 
 Building on the existing Ideafy concept,the deliverable for 59daysofcode will take us one step further to a finished product:
+
 	Revisit the overall visual identity and squirrel theme
 	Adapt existing app accordingly (CSS templates, color schemes)
 	Propose new app splash screen and background (see work done for Total)
