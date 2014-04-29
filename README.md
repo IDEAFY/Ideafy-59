@@ -71,13 +71,17 @@ We are entering the competition with:
 
 This is how we split the roles and responsibilies - (this sounds so serious... well it is... in some way)
 
+
 BUSINESS PROPOSAL (lead: Vincent)
+
 Given the short time frame, the business proposal will not evolve much from the existing Ideafy pitch. It will include a few of the Ideafy R2 features, most importantly “official browser support”, ie. it is no longer an iPad app but a business-grade solution ready for sale.
 
 Good news is we have the product positioning, market experience, go-to-market strategy, business plan and first client feedback. All we need to do (:-0 !!!) is to provide, nice, crispy-looking and convincing deliverables.
 
 PRODUCT PROPOSAL
+
 A). Framework (lead: Olivier)
+
 The deliverable will include and feature the latest delivery of Olivier’s framework with the most notable evolutions:
 
 		- removed dependency on requirejs
