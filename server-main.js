@@ -28,7 +28,6 @@ var http = require("http"),
         hostname : "127.0.0.1",
         port : "6379"
     }),
-    wrap = require("./wrap"),
     srvutils = require("./srvutils.js"),
     apputils = require("./apputils.js"),
     comutils = require("./comutils.js"),
