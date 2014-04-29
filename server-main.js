@@ -50,8 +50,8 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
         secureConnection : true,
         port : 465,
         auth : {
-                user : "vincent.weyl@gmail.com",
-                pass : "$Nor&Vin2012"
+                user : "vincent@ideafy.com",
+                pass : "$Nor&Vin2014"
         }
 });
 
@@ -69,9 +69,9 @@ _dbPort = 5984;
 // Database admin login
 cdbAdminCredentials = "admin:innovation4U";
 // mail sender & address
-mailSender = "IDEAFY <ideafy@taiaut.com>";
+mailSender = "IDEAFY <contact@ideafy.com>";
 // email address fro application support
-supportEmail = "contact@taiaut.com";
+supportEmail = "contact@ideafy.com";
 // Application  client minimum version
 currentVersion = "1.2.3";
 // Path where attachments are stored
@@ -100,7 +100,7 @@ CouchDBTools.requirejs(["CouchDBUser", "Transport", "CouchDBDocument", "CouchDBV
                 .use('/downloads', srvUtils.downloadFunc)
                 .use(connect.cookieParser())
                 .use(connect.session({
-                        secret : "olives&vin2012AD",
+                        secret : "olives&vin2014AD",
                         key : "ideafy.sid",
                         store : sessionStore,
                         cookie : {
@@ -115,7 +115,7 @@ CouchDBTools.requirejs(["CouchDBUser", "Transport", "CouchDBDocument", "CouchDBV
                         next();
                 })
                 //.use(connect.static(__dirname + "/public"))).listen(1664),
-                .use(mount)).listen(1664),
+                .use(mount)).listen(80),
                 io = socketIO.listen(app, {
                         log : true
                 });
