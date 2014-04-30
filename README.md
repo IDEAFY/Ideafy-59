@@ -26,7 +26,7 @@ For the time being several methods and CSS properties (e.g. --webkit-) are used 
 Deployment on iPad is done using Apache Phonegap and has been fully tested (the main application is live at http://appstore.com/ideafy).
 Deployment on Android platforms has been tested with SDK simulators and is not officially supported as of yet.
 
-What do we actually DO then ?
+	What do we actually DO then ?
 
 We try to magically make all the above work together and deliver great user experience and great features for our users and enterprise customers.
 
@@ -40,11 +40,13 @@ Its author is Olivier Scherrer and Olivier is part of the Ideafy team.
 The server code is located at the root of the repository. It currently consists of a main server file and several javascript modules. The application is launched using node server-main.js
 The client code is located in the public/ directory for browser clients. The phonegap code for iPad (that can be used to deploy via Xcode) will be added to the repository as well.
 The main components of the applications can be accessed in the public/js-default directory and include:
-	- the public wall (public ideas and content)
-	- the private library (my ideas / my decks / my sessions)
-	- the brainstorming engine (single / multi-user)
-	- the communication center (messages / contacts / twocents & twoquestions)
-	- the dashboard (profile / settings / about)
+
+- the public wall (public ideas and content)
+- the private library (my ideas / my decks / my sessions)
+- the brainstorming engine (single / multi-user)
+- the communication center (messages / contacts / twocents & twoquestions)
+- the dashboard (profile / settings / about)
+
 Vincent Weyl is the author of this code and also the founder and CEO of Ideafy LLC
 
 
@@ -125,6 +127,37 @@ Building on the existing Ideafy concept,the deliverable for 59daysofcode will ta
 	Replace flag icons with real photos for characters
 
 This work will be the basis of the visual identity used throughout the event including the various presentations. It should be consistent with the existing Ideafy logo and allow reuse of existing Ideafy brochures.
+
+
+OPERATIONAL ASPECTS
+===================
+
+ACCESSING THE 59DAYSOFCODE DEMO PLATFORM
+
+A dedicated Ideafy instance has been setup for the 59daysofcode event.
+It is located at http://ideafy59.ideafy.com. This is a SmartOS machine hosted by Joyent.
+
+To access the demo from a browser only type in the URL.
+The default port is forwarded to the application's port and the index.html file will be served, redirecting client to the proper version.
+
+To access the development platform, currently enter the URL http://ideafy59.ideafy.com:5959/index-dev.html
+
+
+RUNNING IDEAFY ON IPAD
+
+To be completed
+
+
+SETTING UP AN IDEAFY INSTANCE
+
+-- Pre-requisites
+
+-- Installation guide
+
+-- Configuration
+
+-- Build guide
+
 
 
 
