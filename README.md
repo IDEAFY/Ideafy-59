@@ -50,7 +50,7 @@ The main components of the applications can be accessed in the public/js-default
 Vincent Weyl is the author of this code and also the founder and CEO of Ideafy LLC
 
 
-3) User experience and content
+3) User experience and content. 
 The directory public/img contains a collection of custom-made icons and a library of licensed pictures used throughout the application.
 New icons and visuals are currently in development and will be designed by Rudy Contreras who is a member of the Ideafy team.
 
@@ -165,7 +165,7 @@ To install Ideafy, for the time being :
 
 	git clone https://github.com/59DAYSOFCODE/Ideafy.git
 	
-The run Ideafy with :
+Then run Ideafy with :
 
 	node server-main.js
 
