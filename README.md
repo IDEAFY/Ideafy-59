@@ -163,11 +163,11 @@ In order to run an Ideafy instance, you need:
 
 To install Ideafy, for the time being :
 
-	- git clone https://github.com/59DAYSOFCODE/Ideafy.git
+	git clone https://github.com/59DAYSOFCODE/Ideafy.git
 	
 The run Ideafy with :
 
-	- node server-main.js
+	node server-main.js
 
 -- CONFIGURATION
 
@@ -190,7 +190,7 @@ By default the output is the /built directory.
 
 Run the command:
 
-	- ./tools/r.js -o rbuild.js
+	./tools/r.js -o rbuild.js
 	
 All javascript files/modules are concatenated and minified in the ./built/main.js file.
 Copy main.js file to target directory and add the script to the appropriate index file (e.g. index-defautl.html or index-touch.html).

@@ -1,5 +1,11 @@
 /*
  * User password change handler
+ * 
+ * https://github.com/IDEAFY/Ideafy
+ * Proprietary License - All rights reserved
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
+ *
  */
 
 function ChangePassword() {

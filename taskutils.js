@@ -2,11 +2,11 @@
  * IDEAFY -- tasks utilities
  * ===============================
  * 
- * https://github.com/TAIAUT/Ideafy
+ * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent.weyl@taiaut.com>
- * Copyright (c) 2014 IDEAFY
- * 
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
+ *
  */
 
 function TaskUtils(){
