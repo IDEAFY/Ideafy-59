@@ -150,7 +150,7 @@ The Xcode project will be added to the repository prior to the event deadline.
 
 SETTING UP AN IDEAFY INSTANCE
 
--- Pre-requisites
+-- PRE-REQUISITES
 
 In order to run an Ideafy instance, you need:
 - node v0.10.26 or later
@@ -159,33 +159,37 @@ In order to run an Ideafy instance, you need:
 - a working build of couchdb-lucene
 - a SMTP server to send mail notifications
 
--- Installation guide
+-- INSTALLATION
 
 To install Ideafy, for the time being :
+
 	- git clone https://github.com/59DAYSOFCODE/Ideafy.git
 	
 The run Ideafy with :
+
 	- node server-main.js
 
--- Configuration
+-- CONFIGURATION
 
 Before you launch the Ideafy server, make sure you update the configuration settings.
 For the time being they are centralized in the server-main.js file.
 
 Configuration settings include:
-	- IP address and port of the redis server
-	- SMTP server parameters and login credentials for nodemailer
-	- Name, IP address, port and admin credentials for the database
-	- Name and secret for the cookie configuration (needs to be configured in couchdb-emily-tools as well)
-	- path to file storage (e.g. mount drive) for attachments and other user-generated contents
 
--- Build guide
+- IP address and port of the redis server
+- SMTP server parameters and login credentials for nodemailer
+- Name, IP address, port and admin credentials for the database
+- Name and secret for the cookie configuration (needs to be configured in couchdb-emily-tools as well)
+- path to file storage (e.g. mount drive) for attachments and other user-generated contents
+
+-- BUILDING GUIDELINES
 
 The client code is currently build using requirejs optimizer.
 Edit the rbuild.js file in the root directory to select target and adjust dependencies.
 By default the output is the /built directory.
 
 Run the command:
+
 	- ./tools/r.js -o rbuild.js
 	
 All javascript files/modules are concatenated and minified in the ./built/main.js file.
