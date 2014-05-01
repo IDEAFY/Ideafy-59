@@ -1,10 +1,9 @@
 /**
- * https://github.com/TAIAUT/Ideafy
+ * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent.weyl@taiaut.com>
- * Copyright (c) 2012-2013 TAIAUT
- */
-
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
+ */ 
 define(["OObject", "service/map", "Amy/Stack-plugin", "Bind.plugin", "./mtc-details", "./mtq-details", "service/config", "Store"], 
         function(Widget, Map, Stack, Model, MTCDetail, MTQDetail, Config, Store){
                 

@@ -1,9 +1,9 @@
 /**
- * https://github.com/TAIAUT/Ideafy
+ * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent.weyl@taiaut.com>
- * Copyright (c) 2012-2013 TAIAUT
- */
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
+ */ 
 
 define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "Place.plugin", "service/config", "Store", "CouchDBDocument", "service/cardpopup", "../../whiteboard/whiteboard", "Promise", "service/utils", "lib/spin.min", "./mubchat"],
         function(Widget, Map, Model, Event, Place, Config, Store, CouchDBDocument, CardPopup, Whiteboard, Promise, Utils, Spinner, Chat){

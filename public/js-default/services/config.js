@@ -1,9 +1,9 @@
 /**
- * https://github.com/TAIAUT/Ideafy
+ * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
- * Copyright (c) 2014 IDEAFY
- */
+ * Copyright (c) 2014 IDEAFY LLC
+ */ 
 
 define(["Store", "SocketIOTransport", "CouchDBDocument", "Observable"], 
    function(Store, Transport, CouchDBDocument, Observable) {

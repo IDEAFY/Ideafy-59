@@ -1,8 +1,8 @@
 /**
- * https://github.com/TAIAUT/Ideafy
+ * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
- * Author: Olivier Wietrich <olivier.wietrich@taiaut.com>
- * Copyright (c) 2012-2013 TAIAUT
+ * Author: Olivier Wietrich <olivier.wietrich@gmail.com>
+ * Copyright (c) 2012-2014 IDEAFY LLC
  */
 
 /* deps load before main script??*/
