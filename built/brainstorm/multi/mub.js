@@ -1,0 +1,8 @@
+/**
+ * https://github.com/IDEAFY/Ideafy
+ * Proprietary License - All rights reserved
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
+ */
+
+define(["OObject","Amy/Stack-plugin","Bind.plugin","Event.plugin","CouchDBDocument","CouchDBView","service/config","Promise","Store","./mubinit","./mubwait","./session/mucontroller","lib/spin.min"],function(e,t,i,s,n,a,l,o,d,r,c,u,m){return function(i,s){var a,o,d,g=new e,p=new t;return l.get("user"),new m({color:"#9AC9CD",lines:10,length:12,width:6,radius:10,top:328}).spin(),g.plugins.add("mustack",p),g.template='<div id="ideafy-multi"><div class="stack" data-mustack="destination"></div></div>',g.place(document.getElementById("ideafy-multi")),g.reset=function(e){e?"join"===e.mode?g.join(e.id):g.replayMUSession(e.id):(o.reset(),p.getStack().show("mubinit"))},g.replayMUSession=function(e){d.reset(e,!0),p.getStack().show("musession")},g.join=function(e){var t=new n;t.setTransport(l.get("transport")),t.sync(l.get("db"),e).then(function(){t.get("step")&&"mustart"!==t.get("step")?g.startSession(e):(a.reset(e),p.getStack().show("mubwait"))},function(e){console.log(e),alert("failed to join session")})},g.startSession=function(e){p.getStack().show("musession"),d.reset(e)},o=new r(s),a=new c(s,g.startSession),d=new u(s),p.getStack().add("mubinit",o),p.getStack().add("mubwait",a),p.getStack().add("musession",d),i?"join"===i.mode?g.join(i.id):g.replayMUSession(i.id):p.getStack().show("mubinit"),l.get("observer").watch("start-mu_session",function(e){a.reset(e),p.getStack().show("mubwait")}),MUBSTACK=p,g}});

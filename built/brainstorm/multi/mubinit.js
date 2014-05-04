@@ -1,0 +1,8 @@
+/**
+ * https://github.com/IDEAFY/Ideafy
+ * Proprietary License - All rights reserved
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
+ */
+
+define(["OObject","Amy/Stack-plugin","Bind.plugin","Event.plugin","service/config","Promise","Store","./init/newmub","./init/mulist"],function(e,t,i,s,n,a,l,o,d){return function(a){var l=new e,r=new o(a),c=new d(a),u=new t,m=n.get("labels");return l.plugins.addAll({labels:new i(m),muinitstack:u,muinitevent:new s(l)}),l.template='<div id="mub-init"><div id="muinitsliderlbl"><label data-labels="bind:innerHTML, startnewmub"></label><label data-labels="bind:innerHTML, joinmub"></label></div><input id="muinitslider" type="range" min="0" max="1" value ="1" data-muinitevent="listen: mouseup, toggleMode"><div class="exit-brainstorm" data-muinitevent="listen: mousedown, press; listen: mouseup, exit"></div><div class="stack" data-muinitstack="destination"></div></div>',l.place(document.getElementById("mub-init")),l.toggleMode=function(e,t){var i;i="1"===t.value?"new":"list",u.getStack().show(i),u.getStack().get(i).reset()},l.press=function(e,t){t.classList.add("pressed")},l.exit=function(e,t){t.classList.remove("pressed"),a()},l.reset=function(){r.reset(),c.reset()},u.getStack().add("new",r),u.getStack().add("list",c),u.getStack().show("new"),n.get("observer").watch("show-session",function(){u.getStack().show("list"),l.dom.querySelector("#muinitslider").value=0}),l}});
