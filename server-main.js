@@ -100,7 +100,7 @@ CouchDBTools.requirejs(["CouchDBUser", "Transport", "CouchDBDocument", "CouchDBV
                 .use(connect.cookieParser())
                 .use(connect.session({
                         secret : "olives&vin2014AD",
-                        key : "ideafy.sid",
+                        key : "ideafy59.sid",
                         store : sessionStore,
                         cookie : {
                                 maxAge : 864000000,
@@ -113,8 +113,8 @@ CouchDBTools.requirejs(["CouchDBUser", "Transport", "CouchDBDocument", "CouchDBV
                         res.setHeader("X-Powered-By", "OlivesJS + Connect + Socket.io");
                         next();
                 })
-                //.use(connect.static(__dirname + "/public"))).listen(1664),
-                .use(mount)).listen(5959),
+                .use(connect.static(__dirname + "/public"))).listen(5959),
+                //.use(mount)).listen(5959),
                 io = socketIO.listen(app, {
                         log : true
                 });
