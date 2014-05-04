@@ -10,7 +10,7 @@ define(["OObject", "service/config", "Bind.plugin", "Store"],
                 return function TutorialsConstructor(){
                         var tutorials = new Widget(),
                             labels = Config.get("labels"),
-                            tuto = [{"name": "brainstormtutorial", "src": "http://app.ideafy.com:1664/tuto04.m4v"}],
+                            tuto = [{"name": "brainstormtutorial", "src": "http://ideafy59.ideafy.com:5959/tuto04.m4v"}],
                             store = new Store(tuto);
                             
                             
