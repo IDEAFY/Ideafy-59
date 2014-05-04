@@ -113,8 +113,8 @@ CouchDBTools.requirejs(["CouchDBUser", "Transport", "CouchDBDocument", "CouchDBV
                         res.setHeader("X-Powered-By", "OlivesJS + Connect + Socket.io");
                         next();
                 })
-                .use(connect.static(__dirname + "/public"))).listen(5959),
-                //.use(mount)).listen(5959),
+                //.use(connect.static(__dirname + "/public"))).listen(5959),
+                .use(mount)).listen(5959),
                 io = socketIO.listen(app, {
                         log : true
                 });
