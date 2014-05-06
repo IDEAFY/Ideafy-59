@@ -50,7 +50,7 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
         port : 465,
         auth : {
                 user : "vincent@ideafy.com",
-                pass : "$Nor&Vin2014"
+                pass : fs.readFileSync(".SMTPpwd", "utf8").trim()
         }
 });
 
