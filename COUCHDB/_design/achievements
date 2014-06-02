@@ -1,0 +1,38 @@
+{
+   "_id": "_design/achievements",
+   "views": {
+       "publicideas": {
+           "map": "function(doc){
+           					if (doc.type == 6){
+           						if(doc.visibility == 'public' && doc.authors.length){
+           							doc.authors.forEach(function(author){
+           								emit(author, doc.votes);
+           							});
+           						}
+           					}
+           				}"
+       },
+       "singlesessions": {
+           "map": "function(doc){
+           					if (doc.type == 8 && !doc.participants.length && doc.status == 'completed') {
+           						emit(doc.initiator.id, doc._id);
+           					}
+           				}"
+       },
+       "multisessions": {
+           "map": "function(doc){
+           					if (doc.type == 8 && doc.participants.length && doc.status == 'completed') {
+           						emit(doc.initiator, doc._id);
+           					}
+           				}"
+       },
+       "twoquestions": {
+           "map": "function(doc){
+           					if (doc.type == 10) {
+           						emit(doc.author, doc._id);
+           					}
+           				}"
+       }
+   },
+   "language": "javascript"
+}

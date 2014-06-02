@@ -1,0 +1,29 @@
+{
+   "_id": "_design/indexedsessions",
+   "fulltext": {
+       "waiting": {
+           "defaults": {
+               "store": "yes"
+           },
+           "index": "function(doc) {
+           					var scheduled = doc.scheduled || 0;
+           					if (doc.type&&doc.type==8&&(doc.status=='waiting' || doc.status == 'scheduled')&&doc.participants&&doc.participants.length<4){
+           						var ret = new Document(), invited = doc.invited.join();
+           						ret.add(doc.title);
+           						ret.add(doc.initiator.username);
+           						ret.add(doc.solution);
+           						ret.add(doc._id);
+           						ret.add(doc.title, {'field':'title', 'index':'not_analyzed'});
+           						ret.add(doc.scheduled, {'field':'scheduled', 'index':'not_analyzed'});
+           						ret.add(doc.lang, {'field':'lang', 'index':'not_analyzed'});
+           						ret.add(doc._id, {'field':'id', 'index':'not_analyzed'});
+           						ret.add(doc.mode, {'field':'mode', 'index':'not_analyzed'});
+           						ret.add(doc.initiator.username, {'field':'initiator', 'index':'not_analyzed'});
+           						ret.add(doc.participants.length, {'field':'participants', 'index':'not_analyzed'});
+           						ret.add(invited, {'field':'invited', 'index':'not_analyzed'});
+           						return ret;
+           					}
+           				}"
+       }
+   }
+}

@@ -1,0 +1,13 @@
+{
+   "_id": "_design/questions",
+   "views": {
+       "questionsbyauthor": {
+           "map": "function(doc){
+           					if ((doc.type == 10) && (doc.author)) {
+           						emit(doc.author, doc);
+           					}
+           				}"
+       }
+   },
+   "language": "javascript"
+}

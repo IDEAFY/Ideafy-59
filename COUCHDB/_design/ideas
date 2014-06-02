@@ -1,0 +1,83 @@
+{
+   "_id": "_design/ideas",
+   "views": {
+       "all": {
+           "map": "function(doc){ 
+           					if (doc.type == 6){
+           						var nbVotes=0,
+           							  rating=null,
+           							  obj={};
+           						if(doc.votes&&doc.votes.length){
+           							nbVotes=doc.votes.length;
+           							rating=doc.votes.reduce(function(x,y){return  (x+y);})/nbVotes;
+           						}
+           						obj.nbVotes=nbVotes;
+           						obj.rating=rating;
+           						emit(doc._id,obj);
+           					}
+           				}"
+       },
+       "ideasbyauthor": {
+           "map": "function(doc){
+           					if (doc.type == 6) {
+           						if (doc.authors && doc.authors.length) {
+           							doc.authors.forEach(function(author){
+           								emit(author, doc);
+           							});
+           						}
+           					}
+           				}"
+       },
+       "ideasbysession": {
+           "map": "function(doc){
+           					if (doc.type == 6 && doc.sessionId) {
+           						emit(doc.sessionId, doc._id);
+           					}
+           				}"
+       },
+       "privatebyvotes": {
+           "map": "function(doc){
+           					if (doc.type == 6) {
+           						if (doc.authors && doc.authors.length) {
+           							var obj, votes,rating, users; obj = {'creation_date': doc.creation_date, 'authors': doc.authors, 'authornames': doc.authornames, 'visibility':doc.visibility, 'title':doc.title, 'description':doc.description, 'lang':doc.lang.substring(0,2)};
+           							if (doc.votes && (doc.votes.length>0)){
+           								arr = doc.votes.concat();
+           								votes = arr.length;
+           								rating = Math.round(arr.reduce(function(x,y){return x+y;})/votes*100)/100;}else{rating=0;votes=0;
+           							}
+           							if (doc.sharedwith && doc.sharedwith.length){
+           								users = doc.authors.concat(doc.sharedwith);
+           							}
+           							else{
+           								users=doc.authors;
+           							}
+           							users.forEach(function(userid){
+           								emit([0, userid, rating, votes], {'doc':obj, 'rating':rating,'votes':votes});
+           								emit([1, userid, doc.lang.substring(0,2), rating, votes], {'doc':obj, 'rating':rating,'votes':votes});});
+           							}
+           						}
+           					}"
+       },
+       "ideasbyvotes": {
+           "map": "function(doc){
+           					if ((doc.type == 6) && doc.votes && doc.visibility && (doc.visibility ==='public')) {
+           						var arr = doc.votes.concat(),
+           							  votes = arr.length,
+           							  obj = {'creation_date': doc.creation_date, 'authors': doc.authors, 'authornames': doc.authornames, 'title':doc.title, 'description':doc.description, 'lang':doc.lang.substring(0,2)},
+           							  rating;
+           						if (votes) rating = Math.round(arr.reduce(function(x,y){return x+y;})/votes*100)/100;
+           						emit([0, rating, votes], {'doc':obj, 'rating': rating, 'votes': votes});
+           						emit([1, doc.lang.substring(0,2),rating, votes], {'doc':obj, 'rating': rating, 'votes': votes});
+           					}
+           				}"
+       },
+       "ideafyreplay": {
+           "map": "function(doc){
+           					if (doc.type == 6 && doc.sessionId && doc.sessionReplay) {
+           						emit(doc._id, doc.sessionId);
+           					}
+           				}"
+       }
+   },
+   "language": "javascript"
+}

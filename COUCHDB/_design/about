@@ -1,0 +1,27 @@
+{
+   "_id": "_design/about",
+   "views": {
+       "faq": {
+           "map": "function(doc){
+           					if ((doc.type == 12) && (doc.active)) {
+           						emit(doc._id, doc);
+           					}
+           				}"
+       },
+       "howto": {
+           "map": "function(doc){
+           					if ((doc.type == 13) && (doc.active)) {
+           						emit(doc._id, doc);
+           					}
+           				}"
+       },
+       "tip": {
+           "map": "function(doc){
+           					if ((doc.type == 14) && (doc.active)) {
+           						emit(doc._id, doc);
+           					}
+           				}"
+       }
+   },
+   "language": "javascript"
+}

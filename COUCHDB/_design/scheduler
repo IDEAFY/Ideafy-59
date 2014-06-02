@@ -1,0 +1,32 @@
+{
+   "_id": "_design/scheduler",
+   "language": "javascript",
+   "views": {
+       "notif": {
+           "map": "function(doc){
+           					var notif={};
+           					if (doc.scheduled){
+           						if (doc.notif) notif = doc.notif;
+           						emit([doc.scheduled, doc.type],notif);
+           					}
+           				}"
+       },
+       "sessions": {
+           "map": "function(doc){
+           					if (doc.type === 8 && doc.status === 'scheduled') emit(doc.scheduled, {id:doc._id, status: doc.status, initiator: doc.initiator, participants: doc.participants, title: doc.title});
+           				}"
+       },
+       "cleanupSessions": {
+           "map": "function(doc){
+           					var d;
+           					if(doc.type === 8 && doc._id.search('S:MU') > -1){
+           						if (doc.scheduled && (doc.status === 'waiting' || doc.status === 'scheduled' || doc.status === 'deleted')) emit(doc.scheduled, doc._id);
+           						if (!doc.scheduled && (doc.status === 'waiting' || doc.status === 'deleted')) {
+           							d = parseInt(doc._id.split('S:MU:')[1], 10);
+           							emit(d, doc._id);
+           						}
+           					}
+           				}"
+       }
+   }
+}

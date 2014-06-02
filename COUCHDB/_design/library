@@ -1,0 +1,198 @@
+{
+   "_id": "_design/library",
+   "views": {
+       "allideas": {
+           "map": "function(doc){
+           					if (doc.type == 6) {
+           						var arr, obj= {'creation_date': doc.creation_date, 'authors': doc.authors, 'authornames': doc.authornames, 'visibility':doc.visibility, 'title':doc.title, 'description':doc.description, 'lang':doc.lang.substring(0,2)};
+           						if (doc.votes && doc.votes.length >0){
+           							arr = doc.votes.concat();
+           							var votes = arr.length;
+           							var rating = Math.round(arr.reduce(function(x,y){return x+y;})/votes*100)/100;
+           						}
+           						else {
+           							votes = 0;
+           							rating = 0;
+           						}
+           						emit(doc._id, {'rating': rating, 'votes':votes, 'doc':obj});
+           					}
+           				}"
+       },
+       "ideas": {
+           "map": "function(doc){
+           					if (doc.type == 6) {
+           						var arr, obj= {'creation_date': doc.creation_date, 'authors': doc.authors, 'authornames': doc.authornames, 'visibility':doc.visibility, 'title':doc.title, 'description':doc.description};
+           						if (doc.votes && doc.votes.length >0){
+           							arr = doc.votes.concat();
+           							var votes = arr.length;
+           							var rating = arr.reduce(function(x,y){return x+y;})/votes;
+           						}
+           						else {
+           							votes = 0;
+           							rating = 0;
+           						}
+           						doc.authors.forEach(function (author) {
+           							emit(author, {'rating': rating, 'votes':votes, 'doc':obj});
+           							emit([0, author, doc.lang.substring(0,2)], {'rating': rating, 'votes':votes, 'doc':obj});
+           						});
+           						doc.sharedwith && doc.sharedwith.forEach(function (sharedwith) {
+           							emit(sharedwith, {'rating': rating, 'votes':votes, 'doc':obj});
+           							emit([0,sharedwith,doc.lang.substring(0,2)], {'rating': rating, 'votes':votes, 'doc':obj});
+           						});
+           					}
+           				}"
+       },
+       "ideasbyname": {
+           "map": "function(doc){
+           					if (doc.type == 6) {
+           						var arr;
+           						if (doc.votes && doc.votes.length >0){
+           							arr = doc.votes.concat();
+           							var votes = arr.length;
+           							var rating = arr.reduce(function(x,y){return x+y;})/votes;
+           						}
+           						else {
+           							votes = 0;
+           							rating = 0;
+           						};
+           						doc.authors.forEach(function(author){
+           							emit([author, doc.title], {'rating': rating, 'votes':votes});
+           						});
+           						doc.sharedwith && doc.sharedwith.forEach(function (sharedwith){
+           							emit([sharedwith, doc.title], {'rating': rating, 'votes':votes});
+           						});
+           					}
+           				}"
+       },
+       "publicideas": {
+           "map": "function(doc){
+           					if ((doc.type == 6) && (doc.visibility == 'public')) {
+           						var arr, obj = {'creation_date': doc.creation_date, 'authors': doc.authors, 'authornames': doc.authornames, 'title':doc.title, 'description':doc.description, 'lang':doc.lang.substring(0,2)};
+           						if (doc.votes && doc.votes.length >0){
+           							arr = doc.votes.concat();
+           							var votes = arr.length;
+           							var rating = Math.round(arr.reduce(function(x,y){return x+y;})/votes*100)/100;
+           						}
+           						else {
+           							votes = 0;
+           							rating = 0;
+           						};
+           						emit(doc._id, {'rating': rating, 'votes':votes, 'doc':obj});
+           					}
+           				}"
+       },
+       "publicideasbylang": {
+           "map": "function(doc){
+           					if ((doc.type == 6) && (doc.visibility == 'public')) {
+           						var arr, obj = {'creation_date': doc.creation_date, 'authors': doc.authors, 'authornames': doc.authornames, 'title':doc.title, 'description':doc.description, 'lang':doc.lang.substring(0,2)};
+           						if (doc.votes && doc.votes.length >0){
+           							arr = doc.votes.concat();
+           							var votes = arr.length;
+           							var rating = Math.round(arr.reduce(function(x,y){return x+y;})/votes*100)/100;
+           						}
+           						else {
+           							votes = 0;
+           							rating = 0;
+           						}
+           						emit([0,doc._id], {'rating': rating, 'votes':votes, 'doc':obj});
+           						emit([1, doc.lang.substring(0,2)], {'rating': rating, 'votes':votes, 'doc':obj});
+           					}
+           				}"
+       },
+       "publicideasbyname": {
+           "map": "function(doc){
+           					if ((doc.type == 6) && (doc.visibility == 'public')) {
+           						var arr;
+           						if (doc.votes && doc.votes.length >0){
+           							arr = doc.votes.concat();
+           							var votes = arr.length;
+           							var rating = arr.reduce(function(x,y){return x+y;})/votes;
+           						}
+           						else {
+           							votes = 0;
+           							rating = 0;
+           						};
+           						emit(doc.title, {'rating': rating, 'votes':votes});
+           					}
+           				}"
+       },
+       "decks": {
+           "map": "function(doc){
+           					if (doc.type == 7) {
+           						if ((doc.custom_decks) && (doc.taiaut_decks)) {
+           							var obj = doc.custom_decks.concat(doc.taiaut_decks);
+           							for(var i in obj) emit(doc._id, obj[i]);
+           						}
+           						else if (doc.custom_decks) {
+           							for(var i in doc.custom_decks) emit(doc._id, doc.custom_decks[i]);
+           						}
+           						else {
+           							for (var i in doc.taiaut_decks) emit(doc._id, doc.taiaut_decks[i]);
+           						}
+           					}
+           				}"
+       },
+       "decksinuse": {
+           "map": "function(doc){
+           					if (doc.type == 8 && doc.status == 'completed'){
+           						emit(doc.deck, doc._id);
+           					}
+           				}",
+           "reduce": "_count"
+       },
+       "cards": {
+           "map": "function(doc){
+           					if ((doc.type == 1) || (doc.type == 2) || (doc.type == 3) || (doc.type == 4)) {
+           						doc.deck.forEach(function (deck) {emit(deck, doc)});
+           					}
+           				}"
+       },
+       "sessions": {
+           "map": "function(doc) {
+           					if (doc.type == 8) {
+           						var obj, ri = doc.replayIdeas||'';
+           						obj = {id: doc._id, mode: doc.mode, date:doc.date, title:doc.title, idea:doc.idea, participants:doc.participants, initiator:doc.initiator, status:doc.status, replayIdeas:ri, score:doc.score};
+           						doc.participants && doc.participants.forEach(function(participants){
+           							emit(participants.id,obj);
+           						});
+           						emit(doc.initiator.id, obj)
+           					}
+           				}"
+       },
+       "boardroom": {
+           "map": "function(doc) {
+           					var scheduled = doc.scheduled || 0;
+           					if ((doc.type == 8) && (doc.mode == 'boardroom') && ((doc.status == 'waiting') || (doc.status == 'scheduled')) && (doc.participants.length < 4)) {
+           						doc.invited.forEach(function(invited){
+           							emit([invited, doc.lang.substring(0,2)], {mode: doc.mode, title: doc.title, scheduled: scheduled, initiator: doc.initiator, participants: doc.participants, lang: doc.lang.substring(0,2), status:doc.status});
+           						});
+           						if (scheduled) emit([doc.initiator.id, doc.lang.substring(0,2)], {mode: doc.mode, title: doc.title, scheduled: scheduled, initiator: doc.initiator, participants: doc.participants, lang: doc.lang.substring(0,2), status:doc.status});
+           					}
+           				}"
+       },
+       "roulette": {
+           "map": "function(doc) {
+           					var scheduled = doc.scheduled || 0;
+           					if ((doc.type == 8) && (doc.mode == 'roulette') && ((doc.status == 'waiting') || (doc.status == 'scheduled')) && (doc.participants.length < 4)) {
+           						emit(doc.lang.substring(0,2), {mode: doc.mode, title: doc.title, scheduled: scheduled, initiator: doc.initiator, participants: doc.participants, lang: doc.lang});
+           					}
+           				}"
+       },
+       "campfire": {
+           "map": "function(doc) {
+           					var scheduled = doc.scheduled || 0;
+           					if ((doc.type == 8) && (doc.mode == 'campfire') && ((doc.status == 'waiting') || (doc.status == 'scheduled')) && (doc.participants.length < 4)) {
+           						doc.invited.forEach(function(invited){
+           							emit([invited, doc.lang.substring(0,2)], {mode: doc.mode, title: doc.title, scheduled: scheduled, initiator: doc.initiator, participants: doc.participants, lang: doc.lang.substring(0,2)});
+           						});
+           						if (scheduled) emit([doc.initiator.id, doc.lang.substring(0,2)], {mode: doc.mode, title: doc.title, scheduled: scheduled, initiator: doc.initiator, participants: doc.participants, lang: doc.lang.substring(0,2)});}}"
+       },
+       "sessioncount": {
+           "map": "function(doc){
+           					if (doc.type == 8) emit(doc._id);
+           				}",
+           "reduce": "_count"
+       }
+   },
+   "language": "javascript"
+}

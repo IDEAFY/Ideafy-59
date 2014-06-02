@@ -159,6 +159,28 @@ In order to run an Ideafy instance, you need:
 - a working build of couchdb-lucene
 - a SMTP server to send mail notifications
 
+-- COUCHDB Setup and database population
+
+1. Ideafy database
+You will need to create a database with the default content (cards, decks, rewards and other documents).
+The folder COUCHDB contains a basic Ideafy database file.
+
+Copy ideafy.couch to /var/db/couchdb and change file ownership to couchdb:couchdb
+
+This file should also contain the required design documents. Design documents are a set of javascript functions that perform map and filter operations to view
+relevant data from the database.
+All design documents used by Ideafy are provided in the COUCHDB/_design folder for reference.
+
+2. Make sure the default '_users' database is present for authentication
+
+3. Create a ideafy-invites empty database from the command line or using futon
+
+4. Add a handler to manage full text search
+
+Using futon, go to the configuration view and add a'_fti' handler in the 'httpd_global_handlers' section. Give it the following value:
+	{couch_httpd_proxy, handle_proxy_req, <<"http://127.0.0.1:5985">>}
+
+
 -- INSTALLATION
 
 To install Ideafy, for the time being :
