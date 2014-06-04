@@ -2,11 +2,11 @@
  * IDEAFY -- application utilities
  * ===============================
  * 
- * https://github.com/IDEAFY/Ideafy
+ * https://github.com/TAIAUT/Ideafy
  * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent@ideafy.com>
- * Copyright (c) 2014 IDEAFY LLC
- *
+ * Author: Vincent Weyl <vincent.weyl@taiaut.com>
+ * Copyright (c) 2013-2014 TAIAUT
+ * 
  */
 
 var fs = require("fs"),

@@ -5,8 +5,8 @@
  * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
- * Copyright (c) 2014 IDEAFY LLC
- *
+ * Copyright (c) 2014 IDEAFY
+ * 
  */
 
 function TaskUtils(){
@@ -85,29 +85,141 @@ function TaskUtils(){
          * Delete sessions if they are over 1hour past the scheduled time
          */
         this.checkSessions = function checkSessions(){
-                var sessions = new _CouchDBView(),
-                      deleteExpiredSessions = function(){
-                                var now = new Date().getTime();
-                                sessions.loop(function(v,i){
-                                        var cdb = new _CouchDBDocument();
-                                        if (v.value.status === 'waiting' && ((now - v.key) > 3600000)){
-                                                _getDocAsAdmin(v.id, cdb)
-                                                .then(function(){
-                                                        return _removeDocAsAdmin(v.id, cdb);
+                var deleteExpiredSessions = function(){
+                                var now = new Date().getTime(),
+                                      start = 1325404800000, // 01/01/2012,
+                                      end = now - (3600000), // one hour ago
+                                      query = {startkey:start, endkey:end, descending: false},
+                                      sessions = new _CouchDBView();
+                                
+                                _getViewAsAdmin("scheduler", "cleanupSessions", query, sessions)     
+                                .then(function(){
+                                        // for each session -- set status to deleted
+                                        // upload then remove chat document
+                                        // remove session document
+                                        if (sessions.getNbItems()){
+                                                sessions.loop(function(v,i){
+                                                        var session = new _CouchDBDocument(),
+                                                                chatId,
+                                                                chatDoc = new _CouchDBDocument();
+                                                              
+                                                        _getDocAsAdmin(v.id, session)
+                                                        .then(function(){
+                                                                session.set("status", "deleted");
+                                                                chatId = session.get("chat")[0];
+                                                                
+                                                                _updateDocAsAdmin(v.id, session)
+                                                                .then(function(){
+                                                                        return _removeDocAsAdmin(session.get("_id"), session);
+                                                                });
+                                                                
+                                                                _getDocAsAdmin(chatId, chatDoc)
+                                                                .then(function(){
+                                                                        return _removeDocAsAdmin(chatId, chatDoc);        
+                                                                });
+                                                        });
                                                 });
                                         }
                                 });    
                       },
-                      manageSessions = function(){
-                                sessions.reset([]);
+                      
+                      notifySession = function(sid, notice){
+                                var cdb = new _CouchDBDocument();
+                                
+                                // get session from database
+                                _getDocAsAdmin(sid, cdb)
+                                .then(function(){
+                                         var notify = false, now, creation, type, leader, parts, dest, date;
+                                        
+                                        creation = cdb.get("_id").split("S:MU:")[1]; // gets document creation timestamp
+                                        
+                                        // check if notification is required (ie not already notified and created before notification delay)
+                                        if (notice === "day"  && ((cdb.get("scheduled") - creation) > 24*3600000)){
+                                                type = "MUD-";
+                                                (cdb.get("notif") && cdb.get("notif").day) ? notify = false : notify = true;
+                                        }
+                                        if (notice === "quarter" && ((cdb.get("scheduled") - creation) > 900000)){
+                                                type = "MUQ-";
+                                                (cdb.get("notif") && cdb.get("notif").quarter) ? notify = false : notify = true;
+                                        }
+                                        
+                                        // if check ok proceed to notify leader and participants
+                                        if (notify){
+                                                leader = cdb.get("initiator").id;
+                                                parts = cdb.get("participants") || [];
+                                                dest = [leader];
+                                                now = new Date();
+                                                date = [now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()];
+                                                json = {
+                                                        "type" : type,
+                                                        "status" : "unread",
+                                                        "date" : date,
+                                                        "author" : "IDEAFY",
+                                                        "username" : "Ideafy",
+                                                        "firstname" : "",
+                                                        "toList" : "",
+                                                        "ccList" : "",
+                                                        "object" : "",
+                                                        "body" : "",
+                                                        "signature" : "",
+                                                        "docId" : sid,
+                                                        "docTitle" : cdb.get("title"),
+                                                        "scheduled" : cdb.get("scheduled")
+                                                };
+                                                                
+                                                for (i=0; i<parts.length; i++){
+                                                        dest.push(parts[i].id);
+                                                }
+                                                                
+                                                json.dest = dest;
+                                                                
+                                                _notify(json, function(result){
+                                                        if (result){
+                                                                var notif = cdb.get("notif") || {};
+                                                                notif[notice] = true;
+                                                                cdb.set("notif", notif);
+                                                                return _updateDocAsAdmin(sid, cdb);
+                                                        }        
+                                                });        
+                                        }
+                                });
+                                        
+                      },
+                      
+                      notifySessions = function(){
+                                var cdbView = new _CouchDBView(),
+                                      now = new Date().getTime(),
+                                      query24  = {startkey:'['+ now +',8]', endkey:'', descending: false}, // notify a day before session starts
+                                      query15 = {startkey:'['+ now +',8]', endkey:'', descending: false}; // notify 15 minutes before session starts
+                                      
+                                 // build query
+                                 query24.endkey = '['+ (now+24*3600*1000) +',8]';
+                                 query15.endkey = '['+ (now+900*1000) +',8]';
                                  
+                                 [query24, query15].forEach(function(query){
+                                         _getViewAsAdmin("scheduler", "notif", query, cdbView)
+                                        .then(function(res){
+                                                var notice = "";
+                                                if (query === query24) {
+                                                        notice = "day";
+                                                }
+                                                if (query === query15) {
+                                                        notice = "quarter";
+                                                }
+                                                
+                                                cdbView.loop(function(v, i){
+                                                        notifySession(v.id, notice);        
+                                                });   
+                                        });
+                                });  
+                      },
+                      
+                      manageSessions = function(){
+                                
                                 // fetch scheduled sessions from database (status waiting and scheduled not null)
                                 _getViewAsAdmin("scheduler", "sessions", null, sessions)
                                 .then(function(){
                         
-                                        // delete expired sessions from database, ie scheduled sessions that have not been started on time by initiator
-                                        deleteExpiredSessions();
-                                        
                                         // notify initiator and participants of sessions about to start (<5min)
                                         
                                         // notify initiator and participants of sessions starting in one hour
@@ -117,7 +229,8 @@ function TaskUtils(){
                                 });
                        };
                       
-                setInterval(manageSessions, 45000);
+                setInterval(deleteExpiredSessions, 900000);
+                setInterval(notifySessions, 60000);
         };
 };
 

@@ -1,19 +1,13 @@
 /*
- * Database utilities
-  * 
- * https://github.com/IDEAFY/Ideafy
- * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent@ideafy.com>
- * Copyright (c) 2014 IDEAFY LLC
- *
+ * Application handlers
  */
 
 var fs = require("fs"),
-    http = require("http");
+      http = require("http");
 
 function CDBAdmin(){
         
-        var _Promise, _CouchDBDocument, _transport, _db, _dbIP, _dbPort,
+        var _Promise, _CouchDBDocument, _transport, _db, _dbIP, _dbPort, _cdbAdminCredentials,
             updateUserIP, updateDoc, getDoc, createDoc, getView, removeDoc;
         
         this.setVar = function(db, dbIP, dbPort, credentials, transport){
@@ -27,6 +21,14 @@ function CDBAdmin(){
         this.setConstructors = function(Promise, CouchDBDocument){
                 _Promise = Promise; 
                 _CouchDBDocument = CouchDBDocument;      
+        };
+        
+        /*
+         * Get db parameters
+         */
+        
+        this.getDB = function getDB(){
+                return {'ip':_dbIP, 'port':_dbPort, 'name':_db, 'credentials': _cdbAdminCredentials};      
         };
         
         /*
@@ -95,6 +97,7 @@ function CDBAdmin(){
                 }, function (res) {
                         var json = JSON.parse(res);
                         if (json.ok) {
+                                cdbStore.set("_rev", json.rev);
                                 promise.fulfill();
                         } else {
                                 promise.reject();
