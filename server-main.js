@@ -71,9 +71,9 @@ _dbPort = 5984;
 // Database admin login
 cdbAdminCredentials = "admin:innovation4U";
 // mail sender & address
-mailSender = "IDEAFY <ideafy@taiaut.com>";
-// email address fro application support
-supportEmail = "contact@taiaut.com";
+mailSender = "IDEAFY <ideafy@ideafy.com>";
+// email address for application support
+supportEmail = "contact@ideafy.com";
 // Application  client minimum version
 currentVersion = "1.2.3";
 // Path where attachments are stored
@@ -142,6 +142,7 @@ socketIOTransport(io, handlers);
 
 CouchDBTools.configuration.sessionStore = sessionStore;
 handlers.set("CouchDB", CouchDBTools.handler);
+
         
 /*
   *  Application utility functions
