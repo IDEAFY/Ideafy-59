@@ -91,7 +91,7 @@ var mount = st({path: __dirname + '/public/', index: true, index: 'index.html'})
 var handlers = new Store(),
       transport = new Transport(handlers),
       app = http.createServer(connect()
-                //.use(connect.logger())
+                .use(connect.logger())
                 .use(connect.compress())
                 .use(connect.responseTime())
                 .use(connect.bodyParser({ uploadDir:contentPath+'/upload', keepExtensions: true }))
@@ -109,8 +109,15 @@ var handlers = new Store(),
                         }
                 }))   
                 .use(function(req, res, next) {
+                        var ori = req.headers.origin || "http://ideafy59.ideafy.com";
+                        res.setHeader("Access-Control-Allow-Origin", ori);
+                        res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+                        res.setHeader("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE,OPTIONS');
                         res.setHeader("Ideady Server", "node.js/" + process.versions.node);
                         res.setHeader("X-Powered-By", "OlivesJS + Connect + Socket.io");
+                        if ('OPTIONS' == req.method) {
+                                res.send(200);
+                        }
                         next();
                 })
                 .use(mount)).listen(5959),
@@ -122,7 +129,7 @@ var handlers = new Store(),
 io.enable('browser client minification');  // send minified client
 io.enable('browser client etag');          // apply etag caching logic based on version number
 io.enable('browser client gzip');          // gzip the file
-io.set('log level', 0);                    // reduce logging
+io.set('log level', 3);                    // reduce logging
 io.set("close timeout", 300);
 io.set("heartbeat interval", 25);
         
