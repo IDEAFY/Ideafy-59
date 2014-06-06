@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "service/config", "service/cardpopup", "../whiteboard/whiteboard", "Store", "CouchDBDocument", "Promise", "service/utils", "lib/spin.min"],
         function(Widget, Map, Model, Event, Config, CardPopup, Whiteboard, Store, CouchDBDocument, Promise, Utils, Spinner){

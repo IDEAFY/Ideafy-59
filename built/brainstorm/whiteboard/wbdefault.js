@@ -5,4 +5,4 @@
  * Copyright (c) 2014 IDEAFY LLC
  */
 
-define(["OObject","service/config","Bind.plugin"],function(e,t,s){return function(i,n){var a=new e,o="",d=t.get("labels"),r="quick";return a.plugins.add("labels",new s(d)),r=n?n:"quick",o="scenario"===i?r+"scenariohelp":r+"ideahelp",a.template='<div id="whiteboard-default" class="defaultcontent"><div class="doctor-deedee"></div><div class="help" data-labels="bind:innerHTML,'+o+'"></div></div>',a}});
+define(["OObject","service/config","Bind.plugin"],function(e,t,s){return function(i,n){var a=new e,o="",r=t.get("labels"),d="quick";return a.plugins.add("labels",new s(r)),d=n?n:"quick",o="scenario"===i?d+"scenariohelp":d+"ideahelp",a.template='<div id="whiteboard-default" class="defaultcontent"><div class="doctor-deedee"></div><div class="help" data-labels="bind:innerHTML,'+o+'"></div></div>',a}});

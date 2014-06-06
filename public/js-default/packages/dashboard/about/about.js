@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "Amy/Stack-plugin", "service/config", "Store", "./aboutideafy", "./faq", "./userguide", "./tutorials", "./support", "./eula"],
         function(Widget, Map, Model, Event, Stack, Config, Store, AboutIdeafy, FAQ, UserGuide, Tutorials, Support, EULA){

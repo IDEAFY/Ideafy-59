@@ -3,7 +3,8 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
+
 define(["OObject", "service/config", "CouchDBView", "Bind.plugin", "Event.plugin", "Store"],
         function(Widget, Config, CouchDBView, Model, Event, Store){
            

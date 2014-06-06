@@ -3,18 +3,15 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["Store", "SocketIOTransport", "CouchDBDocument", "Observable"], 
    function(Store, Transport, CouchDBDocument, Observable) {
         var _location, _transport, _user, _observer, _config = new Store(), _socket, _version = "", _categories = [];
         
         this.reset = function(){
-               
-               _location = "http://ideafy59.ideafy.com:5959"; 
-                //_location = "http://8.19.34.68:1664";
-                //_location = location.origin;
-                _version = "1.2.3";
+                _location = "http://ideafy59.ideafy.com:5959";
+                _version = "1.2.4";
                 _socket = io.connect(_location);
                 _transport = new Transport(_socket);
                 _user =  new CouchDBDocument();
@@ -52,6 +49,7 @@ define(["Store", "SocketIOTransport", "CouchDBDocument", "Observable"],
                                 "taiaut_decks" : ["INT"],
                                 "custom_decks" : [],
                                 "categories": [],
+                                "calendar": [],
                                 "active_deck": "INT",
                                 "occupation" : {
                                         "situation" : "",

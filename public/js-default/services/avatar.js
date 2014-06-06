@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "Bind.plugin", "Event.plugin", "service/config", "Store", "service/utils", "CouchDBView"],
         function(Widget, Model, Event, Config, Store, Utils, CouchDBView){
@@ -12,6 +12,8 @@ define(["OObject", "Bind.plugin", "Event.plugin", "service/config", "Store", "se
 
                         var _store = new Store({"img":"", "online": false}),
                             _avatars = Config.get("avatars"),
+                            _transport = Config.get("transport"),
+                            _online = Utils.online,
                             _cdb = new CouchDBView([]),
                             _id = $array[0],
                             bool = false; 
@@ -37,13 +39,19 @@ define(["OObject", "Bind.plugin", "Event.plugin", "service/config", "Store", "se
                         this.template='<div class="avatar" data-avatar="bind: setStyle, img; bind: setStatus, online"></div>';
                         
                         // INIT
-                        // check if user is online -- perform check every 30 seconds
-                        Utils.isOnline(_id, _store);
                         
-                        setInterval(function(){
-                                Utils.isOnline(_id, _store);
-                        }, 30000);
                         
+                        // Manage presence status
+                        _cdb.sync(Config.get("db"), "users", "_view/online", {key: '"'+_id+'"'})
+                        .then(function(){
+                                if (_cdb.getNbItems()) _store.set("online", true);
+                                
+                                Config.get("socket").on("Presence", function(data){
+                                        if (data.presenceData.id === _id) _store.set("online", data.presenceData.online);
+                                });
+                        });
+                        
+                        // get picture
                         if ($array.length>1) {
                                 _store.set("img", "img/avatars/deedee6.png");
                         }
@@ -74,7 +82,6 @@ define(["OObject", "Bind.plugin", "Event.plugin", "service/config", "Store", "se
                                         _store.set("img", _avatars.get(_id));
                                 });
                         }
-                             
                 }
                 
                 return function AvatarFactory($id){

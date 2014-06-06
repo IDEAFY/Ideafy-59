@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "Amy/Stack-plugin", "Bind.plugin", "Event.plugin", "service/config", "Promise", "Store", "./init/newmub", "./init/mulist"],
         function(Widget, Stack, Model, Event, Config, Promise, Store, NewMUB, MUList){
@@ -47,6 +47,12 @@ define(["OObject", "Amy/Stack-plugin", "Bind.plugin", "Event.plugin", "service/c
                 widget.reset = function reset(){
                         newMub.reset();
                         muList.reset();
+                };
+                
+                widget.showPreview = function showPreview(id){
+                        muList.showPreview(id);
+                        stack.getStack().show("list");
+                        widget.dom.querySelector("#muinitslider").value = 0; 
                 };
                 
                 // init

@@ -3,10 +3,10 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
-define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config", "Promise", "Store", "service/utils", "lib/spin.min", "Place.plugin", "./mupreview"],
-        function(Widget, Model, Event, CouchDBView, Config, Promise, Store, Utils, Spinner, UIPlugin, MUPreview){
+define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config", "Promise", "Store", "service/utils", "lib/spin.min", "Place.plugin", "./mupreview", "service/utils"],
+        function(Widget, Model, Event, CouchDBView, Config, Promise, Store, Utils, Spinner, UIPlugin, MUPreview, Utils){
                 
            return function MuListConstructor($exit){
            
@@ -23,7 +23,7 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                     _languages = new Store([{name:"*"}]),
                     _usrLg = Config.get("userLanguages"),
                     currentList = "mulistall",
-                    contacts = Utils.getUserContactIds(), // array of user ids
+                    contacts, // array of user names
                     spinner = new Spinner({color:"#9AC9CD", lines:10, length: 10, width: 6, radius:10, top: 200}).spin();
                 
                 // build languages & flags
@@ -87,16 +87,17 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                                         }
                                 },
                                 setDate : function(scheduled){
-                                        console.log(scheduled);
                                         var now, sched;
                                         if (scheduled){
                                                 now = new Date();
                                                 sched = new Date(scheduled);
-                                                if (now.getDate() === sched.getDate()){
+                                                if (now.toDateString() === sched.toDateString()){
                                                         if ((sched.getTime() - now.getTime()) <= 300000) this.innerHTML = labels.get("now");
-                                                        else this.innerHTML = labels.get("today");
+                                                        else this.innerHTML = sched.toLocaleTimeString();
                                                 }
-                                                else this.innerHTML = sched.toLocaleDateString();        
+                                                else {
+                                                        this.innerHTML = Utils.formatDate([sched.getFullYear(), sched.getMonth(), sched.getDate()]);
+                                                }       
                                         }
                                         else this.innerHTML = labels.get("now"); 
                                 },
@@ -128,15 +129,19 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                                         }        
                                 },
                                 setDate : function(scheduled){
+                                        // couchdb-lucene fields returned as string -- convert to number first
+                                        scheduled = parseInt(scheduled, 10);
                                         var now, sched;
                                         if (scheduled){
                                                 now = new Date();
                                                 sched = new Date(scheduled);
-                                                if (now.getDate() === sched.getDate()){
+                                                if (now.toDateString() === sched.toDateString()){
                                                         if ((sched.getTime() - now.getTime()) <= 300000) this.innerHTML = labels.get("now");
-                                                        else this.innerHTML = labels.get("today");
+                                                        else this.innerHTML = sched.toLocaleTimeString();
                                                 }
-                                                else this.innerHTML = sched.toLocaleDateString();        
+                                                else {
+                                                        this.innerHTML = Utils.formatDate([sched.getFullYear(), sched.getMonth(), sched.getDate()]);
+                                                }        
                                         }
                                         else this.innerHTML = labels.get("now"); 
                                 },
@@ -155,7 +160,7 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                 widget.reset = function reset(){
                        currentList = "mulistall";
                        // init spinner
-                       spinner.spin(document.getElementById("mulistspinner"));
+                       spinner.spin(widget.dom.querySelector("#mulistspinner"));
                        // reset options
                        muListOptions.set("selectedLang", "all");
                        muListOptions.set("selectedMode", "allmodes");
@@ -207,15 +212,16 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                         var promise = new Promise(), cdb = new CouchDBView();
                         cdb.setTransport(transport);
                         cdb.sync("_fti/local/"+db, "indexedsessions", "waiting", {q: query, descending:true}).then(function(){
+                                contacts = Utils.getContactUsernames().join();
                                 cdb.loop(function(v,i){
                                         var add = false;
-                                        if (v.fields.mode === "roulette"){
+                                        if (v.fields.mode === "roulette" && v.score > 0.66){
                                                 add = true;
                                         }
-                                        else if (v.fields.mode === "campfire" && contacts.indexOf(v.fields.initiator.id) > -1){
+                                        else if (v.fields.mode === "campfire" && v.score > 0.66 && (v.fields.initiator === user.get("username") || contacts.search(v.fields.initiator) > -1)){
                                                 add =true;
                                         }
-                                        else if (v.fields.mode === "boardroom" && v.fields.invited.search(user.get("_id"))>-1){
+                                        else if (v.fields.mode === "boardroom" && v.score > 0.66 && (v.fields.initiator === user.get("username") || v.fields.invited.search(user.get("_id"))>-1)){
                                                 add = true;
                                         }
                                         if (add){
@@ -224,6 +230,8 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                                                         if (v.fields.mode.search(filter.mode)>-1 && v.fields.lang.search(filter.lang)>-1) {arr.push(v);}
                                                 }
                                         }
+                                }, function(err){
+                                        alert(err);
                                 });
                                 promise.fulfill();
                         });
@@ -314,9 +322,13 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                         });
                 };
                 
-                widget.filterList = function filterList(){
-                        var arr=[], query = widget.dom.querySelector("#mulist-content input").value,
+                widget.filterList = function filterList($query){
+                        var arr=[], query = $query || widget.dom.querySelector("#mulist-content input").value,
                             promise = new Promise(), mode = "", lang = "";
+                        
+                        
+                        // escape : characters in query - used in doc._id
+                        query = query.replace(/:/g, '\\:');
                         
                         if (muListOptions.get("selectedMode") !== "allmodes"){mode = muListOptions.get("selectedMode");}
                         if (muListOptions.get("selectedLang") !== "all"){lang = muListOptions.get("selectedLang");}
@@ -406,7 +418,26 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                 };
                 
                 widget.refreshList = function refreshList(){
+                        if (!widget.dom.querySelector("#mulist-content input").value) currentList = "mulistall";
                         widget.toggleList(currentList);
+                };
+                
+                widget.showPreview = function showPreview(id){
+                        // display search window with session id
+                        if (currentList !== "musearch"){
+                                widget.dom.querySelector("#mulistall").classList.add("invisible");
+                                widget.dom.querySelector("#musearch").classList.remove("invisible");
+                                currentList = "musearch";
+                        }
+                        spinner.spin(widget.dom.querySelector("#mulistspinner"));
+                        
+                        widget.filterList(id).then(function(){
+                                widget.dom.querySelector("#mulist-content input").value = muSearch.get(0).fields.title;
+                                spinner.stop();
+                        });
+                        
+                        // display pop up
+                        muPreviewUI.reset(id);        
                 };
                 
                 
@@ -430,6 +461,12 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBView", "service/config
                         widget.toggleList("musearch");
                 });
                 
+                // a session was exited - refresh the list
+                Config.get('observer').watch("session-exited", function(){
+                        widget.refreshList();
+                });
+                
+                MULISTSPI = spinner;
                 
                 return widget;
                    

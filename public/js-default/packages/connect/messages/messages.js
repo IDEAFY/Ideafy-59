@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define (["OObject", "service/map", "Bind.plugin", "Event.plugin", "Amy/Control-plugin", "Amy/Stack-plugin", "Store", "service/config", "service/avatar", "service/utils", "./message-detail", "./newmessage", "service/actionbar", "Promise"],
         function(Widget, Map, Model, Event, Control, Stack, Store, Config, Avatar, Utils, MessageDetail, NewMessage, ActionBar, Promise){
@@ -116,6 +116,24 @@ define (["OObject", "service/map", "Bind.plugin", "Event.plugin", "Amy/Control-p
                                                                 break;
                                                         case "REF":
                                                                 this.innerHTML = msgList.get(id).username + labels.get("joinedideafy");
+                                                                break;
+                                                        case "MUD-":
+                                                                this.innerHTML = labels.get("muinaday");
+                                                                break;
+                                                        case "MUQ-":
+                                                                this.innerHTML = labels.get("mufifteen");
+                                                                break;
+                                                        case "MUP+":
+                                                                this.innerHTML = labels.get("newpart");
+                                                                break;
+                                                        case "MUP-":
+                                                                this.innerHTML = labels.get("partleft");
+                                                                break;
+                                                        case "SCANCEL":
+                                                                this.innerHTML = labels.get("scancel");
+                                                                break;
+                                                        case "SSTART":
+                                                                this.innerHTML = labels.get("sstart");
                                                                 break;
                                                         default :
                                                                 this.innerHTML = msgList.get(id).object;

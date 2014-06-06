@@ -3,31 +3,13 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["service/config", "Observable", "Promise", "LocalStore", "SocketIOTransport", "CouchDBDocument", "CouchDBView"], function(Config, Observable, Promise, LocalStore, Transport, Store, CouchDBView){
         var _utils = {},
               user = Config.get("user"),
-              transport = Config.get("transport");
-	
-	/*
-	 *  A function to set presence status of a given user
-	 * Returns a promise
-	 */
-	_utils.isOnline = function(userid, cdb){
-	       var onlineUsers = new CouchDBView(), promise = new Promise();
-	       
-	       onlineUsers.setTransport(transport);
-	       
-	       onlineUsers.sync(Config.get("db"), "users", "_view/online", {key: '"'+userid+'"'})
-	       .then(function(){
-	               (onlineUsers.getNbItems()) ? cdb.set("online", true) : cdb.set("online", false);
-	               promise.fulfill();
-	               onlineUsers.unsync();
-	       });
-	       
-	       return promise;
-	};
+              transport = Config.get("transport"),
+              socket = Config.get("socket");
 	
 	_utils.formatDate = function(array){
 	       var month = array[1] + 1;
@@ -478,6 +460,17 @@ define(["service/config", "Observable", "Promise", "LocalStore", "SocketIOTransp
                 });
                 return res;
         };
+        
+        /*
+        *  A function that extracts a list of all contact usernames from a user document
+        */
+        _utils.getContactUsernames = function(){
+                var res = [], contacts = user.get("connections").concat();
+                contacts.forEach(function(contact){
+                        if (contact.type === "user") {res.push(contact.username);}        
+                });
+                return res;
+        };
                 
         /*
         * A function to check if user profile is completed
@@ -551,17 +544,18 @@ define(["service/config", "Observable", "Promise", "LocalStore", "SocketIOTransp
                 var listener = function(e){
                         var element;
                         for (element = e.target; element; element = element.parentNode) {
-                                if (element.id === id) {
+                                if (element.id && element.id === id) {
                                         return;
                                 }
                         }
-                                
+                        
                         // else allow touch events to display/close the notification list and do nothing if event target is an empty place in the dock
-                        if (!e.target.classList.contains("deedee") && !e.target.classList.contains("notify-header") && !e.target.classList.contains("exit-brainstorm") && e.target.id !== "dock" && !e.target.classList.contains("close-help")){
+                        if (e.target.classList.contains("deedee") || e.target.classList.contains("notify-header") || e.target.classList.contains("exit-brainstorm") || e.target.classList.contains("dock-item")){
                                 e.stopPropagation();
                                 callback(e.target);        
                         }       
                 };
+                
                 document.addEventListener("mousedown", listener, true);
                 return listener;      
         };
@@ -604,6 +598,6 @@ define(["service/config", "Observable", "Promise", "LocalStore", "SocketIOTransp
                 });
                 return promise;        
         };
-        
+      
         return _utils;
 });

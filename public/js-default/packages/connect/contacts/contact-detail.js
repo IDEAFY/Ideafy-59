@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/config", "service/map", "Store", "Bind.plugin", "Event.plugin", "service/avatar", "service/utils"],
         function (Widget, Config, Map, Store, Model, Event, Avatar, Utils){

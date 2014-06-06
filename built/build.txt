@@ -30,6 +30,7 @@ service/actionbar.js
 public/lists/list-public.js
 public/lists/list-polling.js
 service/submenu.js
+service/newidea.js
 public/public.js
 library/ideas/detail-stack/library-idea.js
 library/ideas/detail-stack/library-edit.js
@@ -70,6 +71,7 @@ brainstorm/quickb/quickwrapup.js
 brainstorm/quickb/quickb.js
 service/date.js
 service/time.js
+dashboard/profile/calendar.js
 brainstorm/multi/init/newmub.js
 brainstorm/multi/init/mupreview.js
 brainstorm/multi/init/mulist.js
@@ -99,6 +101,7 @@ connect/twocents/mtc-details.js
 connect/twocents/mtq-details.js
 connect/twocents/mtc-stack.js
 connect/twocents/twoqlist.js
+service/new2q.js
 connect/twocents/mytwocents.js
 connect/connect.js
 dashboard/profile/leaderboard.js
@@ -114,8 +117,6 @@ dashboard/about/eula.js
 dashboard/about/about.js
 dashboard/dashboard.js
 notify.js
-service/newidea.js
-service/new2q.js
 service/tips.js
 dock.js
 login.js

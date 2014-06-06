@@ -1,11 +1,10 @@
 /**
  * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
- * Author: Olivier Wietrich <olivier.wietrich@gmail.com>
- * Copyright (c) 2012-2014 IDEAFY LLC
+ * Author: Vincent Weyl <vincent@ideafy.com>
+ * Copyright (c) 2014 IDEAFY LLC
  */
 
-/* deps load before main script??*/
 require.config({
         waitSeconds: 60,
         baseUrl : "js-default/packages",

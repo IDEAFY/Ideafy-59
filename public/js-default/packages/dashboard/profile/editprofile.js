@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/config", "Bind.plugin", "Event.plugin", "service/avatar", "service/utils", "Store", "lib/spin.min", "LocalStore"],
         function(Widget, Config, Model, Event, Avatar, Utils, Store, Spinner, LocalStore){

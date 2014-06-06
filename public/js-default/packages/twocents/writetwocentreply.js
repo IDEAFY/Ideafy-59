@@ -3,8 +3,8 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
- 
+ */
+
 define(["OObject", "Store", "Bind.plugin", "Event.plugin", "service/config", "service/utils", "lib/spin.min"],
         function(Widget, Store, ModelPlugin, EventPlugin, Config, Utils, Spinner){
                 

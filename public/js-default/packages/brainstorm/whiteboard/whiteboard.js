@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["Amy/Stack-plugin", "./wbdefault", "./wbmain", "./wbpostit", "./wbimport", "./wbdrawing", "Store"],
         function(Stack, Default, Main, Postit, Import, Drawing, Store){

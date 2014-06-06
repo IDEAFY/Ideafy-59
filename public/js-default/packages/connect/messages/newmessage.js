@@ -3,8 +3,8 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
- 
+ */
+
 define(["OObject", "Bind.plugin", "Event.plugin", "service/config", "Store", "Promise", "service/autocontact", "lib/spin.min"],
         function(Widget, Model, Event, Config, Store, Promise, AutoContact, Spinner){
                 

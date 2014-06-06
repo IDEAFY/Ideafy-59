@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/map", "service/submenu", "Amy/Stack-plugin", "Bind.plugin", "service/config", "Store", "service/utils", "./ideafy-menu", "./quickb/quickb", "./multi/mub"], 
 	function(Widget, Map, Menu, Stack, Model, Config, Store, Utils, IdeafyMenu, QuickB, MultiB){
@@ -47,7 +47,8 @@ define(["OObject", "service/map", "service/submenu", "Amy/Stack-plugin", "Bind.p
                              _submenu.toggleActive(false);
                         };
                         _widget.exitSession = function exitSession(){
-                                _stack.getStack().show("menu");        
+                                _stack.getStack().show("menu");
+                                Config.get("observer").notify("session-exited");     
                         };
                         
                         _widget.reset = function reset(){
@@ -124,6 +125,11 @@ define(["OObject", "service/map", "service/submenu", "Amy/Stack-plugin", "Bind.p
                  */
                 Config.get("observer").watch("join-musession", function(sid){
                       var sip ={type: "musession", id: sid, mode:"join"};
+                      _widget.selectScreen(sip.type, sip);
+                });
+                
+                Config.get("observer").watch("show-mupreview", function(sid){
+                        var sip ={type: "musession", id: sid, mode:"preview"};
                       _widget.selectScreen(sip.type, sip);
                 });
 		

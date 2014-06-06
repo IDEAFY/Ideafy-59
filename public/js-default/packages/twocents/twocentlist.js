@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/config", "CouchDBDocument", "Store", "Promise", "service/utils", "Bind.plugin", "Event.plugin", "twocents/twocentreplylist", "twocents/writetwocent", "twocents/writetwocentreply", "service/avatar"],
         function(Widget, Config, CouchDBDocument, Store, Promise, Utils, Model, Event, TwocentReplyList, WriteTwocent, WriteTwocentReply, Avatar){

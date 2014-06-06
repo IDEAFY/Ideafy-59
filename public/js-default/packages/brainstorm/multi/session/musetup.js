@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/map", "Bind.plugin", "Place.plugin", "Event.plugin", "service/config", "CouchDBDocument", "Store", "Promise", "service/cardpopup", "service/help", "service/utils", "lib/spin.min", "./mubchat"],
         function(Widget, Map, Model, Place, Event, Config, CouchDBDocument, Store, Promise, CardPopup, Help, Utils, Spinner, Chat){

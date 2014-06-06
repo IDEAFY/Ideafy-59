@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/map", "Amy/Stack-plugin","service/submenu", "./contacts/contacts", "./messages/messages", "./twocents/mytwocents", "service/config"], 
 	function(Widget, Map, Stack, Menu, Contacts, Messages, MyTwocents, Config){

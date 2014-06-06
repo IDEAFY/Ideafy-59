@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["Store"], function(Store){
 	return new Store({
@@ -22,7 +22,7 @@ define(["Store"], function(Store){
 		"new2c-popup" : document.getElementById("new2c-popup"),
 		"help-popup" : document.getElementById("help-popup"),
 		"tip-popup" : document.getElementById("tip-popup"),
-		"cache" : document.getElementById("cache"),
+                "confirm-popup" : document.getElementById("confirm-popup"),
 		"public" : document.getElementById("public"),
 		        "public-menu" : document.getElementById("public-menu"),
 			"public-detail" : document.getElementById("public-detail"),

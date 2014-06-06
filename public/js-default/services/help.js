@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "service/config", "Store"],
         function(Widget, Map, Model, Event, Config, Store){
@@ -19,10 +19,7 @@ define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "service/config
                                 "helpevent" : new Event(_widget)
                         });
                         
-                        _widget.template = '<div><div class="help-doctor"></div><div class="close-help" data-helpevent="listen:mousedown, closeHelp"></div><div class="help-screen" data-help="bind:innerHTML,html"></div></div>';
-                        
-                        _widget.render();
-                        _widget.place(Map.get("help-popup"));
+                        _widget.template = '<div id="help-popup"><div class="help-doctor"></div><div class="close-help" data-helpevent="listen:mousedown, closeHelp"></div><div class="help-screen" data-help="bind:innerHTML,html"></div></div>';
                         
                         _widget.setContent = function setContent(label){
                                 _content.set("html", _labels.get(label));        
@@ -30,7 +27,7 @@ define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "service/config
                         
                         _widget.closeHelp = function(event, node){
                                 // hide window
-                                document.getElementById("help-popup").classList.remove("appear");
+                                _widget.dom.classList.remove("appear");
                                 document.getElementById("cache").classList.remove("appear");
                         };
                         

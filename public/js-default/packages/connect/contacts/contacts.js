@@ -3,7 +3,7 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
 define (["OObject", "service/map", "service/config", "Amy/Stack-plugin", "Bind.plugin", "Event.plugin", "Amy/Control-plugin", "Store", "service/avatar", "service/actionbar", "./addcontact", "./addgroup", "./contact-detail", "./group-detail"],
         function(Widget, Map, Config, Stack, Model, Event, Control, Store, Avatar, ActionBar, AddContact, AddGroup, ContactDetails, GroupDetails){

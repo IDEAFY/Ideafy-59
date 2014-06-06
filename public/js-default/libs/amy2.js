@@ -1,8 +1,8 @@
 /**
- * https://github.com/IDEAFY/Ideafy
+ * https://github.com/TAIAUT/Ideafy
  * Proprietary License - All rights reserved
- * Author: Olivier Wietrich <Olivier.Wietrich@gmail.com>
- * Copyright (c) 2012-2014 IDEAFY LLC
+ * Author: Olivier Wietrich <Olivier.Wietrich@taiaut.com>
+ * Copyright (c) 2012-2013 TAIAUT
  */
 
 define("Amy/DomUtils", ["DomUtils", "Tools"], 

@@ -3,10 +3,10 @@
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
  * Copyright (c) 2014 IDEAFY LLC
- */ 
+ */
 
-define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/config", "Promise", "Store", "service/utils", "lib/spin.min", "Place.plugin", "service/date", "service/time"],
-        function(Widget, Model, Event, CouchDBDocument, Config, Promise, Store, Utils, Spinner, Place, DateWidget, TimeWidget){
+define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/config", "Promise", "Store", "service/utils", "lib/spin.min", "Place.plugin", "service/date", "service/time", "dashboard/profile/calendar"],
+        function(Widget, Model, Event, CouchDBDocument, Config, Promise, Store, Utils, Spinner, Place, DateWidget, TimeWidget, Calendar){
                 
            return function NewMUBConstructor($exit){
            
@@ -139,7 +139,7 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/co
                         "newmubevent": new Event(widget)
                 });
                 
-                widget.template = '<div id="newmub"><div id="newmub-content"><form><div class="idealang"><div class="currentlang" data-newmub="bind: displayLang, lang" data-newmubevent="listen: mouseup, showLang"></div><ul class="invisible" data-select="foreach"><li data-select="bind: setBg, name; bind: setSelected, selected" data-newmubevent="listen: mousedown, selectFlag; listen: mouseup, setLang"></li></ul></div><label data-labels="bind:innerHTML, selectmode"></label><hr/><div class="select-mode"><select data-newmub="bind:initSessionMode, mode" data-newmubevent="listen:change, changeSessionMode"><option name="roulette" data-labels="bind:innerHTML, roulette"></option><option name="campfire" data-labels="bind:innerHTML, campfire"></option><option name="boardroom" data-labels="bind:innerHTML, boardroom"></option></select><span class="session-info" data-newmub="bind: setSessionInfo, mode"></span></div><div class="schedule-session"><label data-labels="bind:innerHTML, schedulesession"></label><hr/><div data-place="place: dateUI"></div><div data-place="place:timeUI"></div></div><div class="invite-contacts invisible" data-newmub="bind:displayInvitations, mode"><label>Invitez les participants</label><hr/><div class="selectall" data-labels="bind:innerHTML, selectall" data-newmubevent="listen: mousedown, press; listen:mouseup, selectAll">Select all</div><input class="search" data-newmubevent="listen:mousedown, displayAutoContact; listen:input, updateAutoContact" data-labels="bind:placeholder, tocontactlbl"><div id="invitelistauto" class="autocontact invisible"><div class="autoclose" data-newmubevent="listen:mousedown,close"></div><ul data-auto="foreach"><li data-auto="bind:innerHTML, username; bind:highlight, selected" data-newmubevent="listen:mouseup, select"></li></ul></div><div class="invitecontactlist"><ul data-invited="foreach"><li class = "contact list-item" data-newmubevent="listen:mousedown, discardContact"><p class="contact-name" data-invited="bind:innerHTML, username"></p><div class="remove-contact"></div></li></ul></div></div><label data-labels="bind:innerHTML, quickstarttitle"></label><hr/><textarea class="session-title" maxlength=40 readonly="readonly" name="title" data-newmub="bind:value, title; bind: setTitle, initiator" data-newmubevent="listen: mousedown, removeReadonly"></textarea><label data-labels="bind:innerHTML, quickstartdesc"></label><hr/><textarea class="session-desc" name="description" data-newmub="bind:value, description" data-labels="bind: placeholder, quickstartdescplaceholder"></textarea></form><div class="newmub-footer"><p class="send"><label class="clear" data-labels="bind:innerHTML, clear" data-newmubevent="listen: mousedown, press; listen:mouseup, clear"></label><label class="create" data-labels="bind:innerHTML, create" data-newmubevent="listen:mousedown, press; listen:mouseup, create"></label><label class="editerror" data-errormsg="bind:innerHTML, errormsg"></label></p></div></div></div>';
+                widget.template = '<div id="newmub"><div id="newmub-content"><form><div class="idealang"><div class="currentlang" data-newmub="bind: displayLang, lang" data-newmubevent="listen: mouseup, showLang"></div><ul class="invisible" data-select="foreach"><li data-select="bind: setBg, name; bind: setSelected, selected" data-newmubevent="listen: mousedown, selectFlag; listen: mouseup, setLang"></li></ul></div><label data-labels="bind:innerHTML, selectmode"></label><hr/><div class="select-mode"><select data-newmub="bind:initSessionMode, mode" data-newmubevent="listen:change, changeSessionMode"><option name="roulette" data-labels="bind:innerHTML, roulette"></option><option name="campfire" data-labels="bind:innerHTML, campfire"></option><option name="boardroom" data-labels="bind:innerHTML, boardroom"></option></select><span class="session-info" data-newmub="bind: setSessionInfo, mode"></span></div><div class="schedule-session"><label data-labels="bind:innerHTML, schedulesession"></label><hr/><input type="radio" name="schedule" checked=true data-newmubevent="listen:click, hideDTUI"><span data-labels="bind:innerHTML, now"></span><input type="radio" name="schedule" data-newmubevent="listen: click, showDTUI"><span data-labels="bind:innerHTML, schedule"></span><br/><div class="dateandtime invisible"><div data-place="place: dateUI"></div><div data-place="place:timeUI"></div></div></div><div class="invite-contacts invisible" data-newmub="bind:displayInvitations, mode"><label>Invitez les participants</label><hr/><div class="selectall" data-labels="bind:innerHTML, selectall" data-newmubevent="listen: mousedown, press; listen:mouseup, selectAll">Select all</div><input class="search" data-newmubevent="listen:mousedown, displayAutoContact; listen:input, updateAutoContact" data-labels="bind:placeholder, tocontactlbl"><div id="invitelistauto" class="autocontact invisible"><div class="autoclose" data-newmubevent="listen:mousedown,close"></div><ul data-auto="foreach"><li data-auto="bind:innerHTML, username; bind:highlight, selected" data-newmubevent="listen:mouseup, select"></li></ul></div><div class="invitecontactlist"><ul data-invited="foreach"><li class = "contact list-item" data-newmubevent="listen:mousedown, discardContact"><p class="contact-name" data-invited="bind:innerHTML, username"></p><div class="remove-contact"></div></li></ul></div></div><label data-labels="bind:innerHTML, quickstarttitle"></label><hr/><textarea class="session-title" maxlength=40 readonly="readonly" name="title" data-newmub="bind:value, title; bind: setTitle, initiator" data-newmubevent="listen: mousedown, removeReadonly"></textarea><label data-labels="bind:innerHTML, quickstartdesc"></label><hr/><textarea class="session-desc" name="description" data-newmub="bind:value, description" data-labels="bind: placeholder, quickstartdescplaceholder"></textarea></form><div class="newmub-footer"><p class="send"><label class="clear" data-labels="bind:innerHTML, clear" data-newmubevent="listen: mousedown, press; listen:mouseup, clear"></label><label class="create" data-labels="bind:innerHTML, create" data-newmubevent="listen:mousedown, press; listen:mouseup, create"></label><label class="editerror" data-errormsg="bind:innerHTML, errormsg"></label></p></div></div></div>';
                 
                 widget.place(document.getElementById("newmub"));
                 
@@ -183,13 +183,13 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/co
                         session.set("deck", user.get("active_deck"));
                         session.set("initiator", {"id" : user.get("_id"), "username" : user.get("username"), "intro" : user.get("intro")});
                         
-                        // reset scheduling, invitations, errors
-                        dateUI.reset();
-                        timeUI.reset();
+                        // reset scheduling and radio checkbox, invitations, errors
+                        widget.hideDTUI();
+                        widget.dom.querySelector("input[name='schedule']").checked = true;
                         invited.reset([]);
                         error.set("errormsg", "");
                         // reset contactList with all user connections
-                       contactList.reset(user.get("connections").concat());    
+                       contactList.reset(user.get("connections").concat());  
                 };
                 
                 widget.showLang = function(event, node){
@@ -221,6 +221,16 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/co
                         contactList.reset(user.get("connections"));
                         invited.reset([]);
                         session.set("mode", name);
+                };
+                
+                widget.showDTUI = function(event, node){
+                        widget.dom.querySelector(".dateandtime").setAttribute("style", "display: inline-block;");
+                };
+                
+                widget.hideDTUI = function(event, node){
+                        widget.dom.querySelector(".dateandtime").setAttribute("style", "display: none;");
+                        dateUI.reset();
+                        timeUI.reset();     
                 };
                 
                 widget.displayAutoContact = function(event, node){
@@ -433,8 +443,10 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/co
                         
                         // check if session is scheduled (ie start date > now+10min)
                         scheduled = dateUI.getDatestamp() + timeUI.getTimestamp();
-                        session.set("scheduled", scheduled);
-                        if ((scheduled - now.getTime()) > 600000) session.set("status", "scheduled");
+                        if ((scheduled - now.getTime()) > 600000) {
+                                session.set("status", "scheduled");
+                                session.set("scheduled", scheduled);
+                        }
                         session.set("date", dateUI.getDate());
                         
                         // add invited list if mode is boardroom or all user contacts if mode is campfire
@@ -468,7 +480,17 @@ define(["OObject", "Bind.plugin", "Event.plugin", "CouchDBDocument", "service/co
                                 return cdb.upload();      
                         })
                         .then(function(){
+                                // add session to user calendar
+                                if (session.get("scheduled")){
+                                        return Calendar.add({date: cdb.get("scheduled"), type: "MU", docId: cdb.get("_id"), info:"scheduled"});
+                                }
+                                else{
+                                        return Calendar.add({date: now.getTime(), type: "MU", docId: cdb.get("_id"), info:"started"});
+                                }
+                        })
+                        .then(function(){
                                 var obs = Config.get("observer");
+                                
                                 if (cdb.get("mode") === "boardroom"){
                                         error.set("errormsg", labels.get("sendinginvites"));
                                         widget.sendInvites(cdb.get("invited"), cdb.get("_id"), cdb.get("title"), cdb.get("scheduled")).then(function(){
