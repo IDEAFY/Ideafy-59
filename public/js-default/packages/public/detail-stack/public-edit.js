@@ -190,8 +190,10 @@ define(["OObject", "service/map", "Store", "CouchDBDocument", "Bind.plugin", "Ev
                         };
                         
                         _widget.editVisibility = function(event, node){
+                                node.classList.add("pressed");
                                 // confirmation
                                 Confirm.reset(_labels.get("setpublicquestion"), function(decision){
+                                        node.classList.remove("pressed");
                                         (decision) ? _store.set("visibility", "public") : _store.set("visibility", "private");
                                         Confirm.hide();
                                 });
