@@ -1,4 +1,4 @@
-/**
+/*
  * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
@@ -10,9 +10,13 @@ define(["Store", "SocketIOTransport", "CouchDBDocument", "Observable"],
         var _location, _transport, _user, _observer, _config = new Store(), _socket, _version = "", _categories = [];
         
         this.reset = function(){
-                _location = "http://ideafy59.ideafy.com:5959";
-                _version = "1.2.4";
-                _socket = io.connect(_location);
+                //_location = "http://ideafy59.ideafy.com:5959";
+                //_version = "1.3.0";
+                _location = "http://app.ideafy.com:1664"; 
+                //_location = "http://8.19.34.68:1664";
+                //_location = location.origin;
+                _version = "1.3.0";
+                _socket = io.connect(_location, {'reconnect': true, 'reconnection delay': 500, 'max reconnection attempts': 10});
                 _transport = new Transport(_socket);
                 _user =  new CouchDBDocument();
                 _observer = new Observable();
@@ -48,9 +52,9 @@ define(["Store", "SocketIOTransport", "CouchDBDocument", "Observable"],
                                 "connections" : [],
                                 "taiaut_decks" : ["INT"],
                                 "custom_decks" : [],
+                                "active_deck": "INT",
                                 "categories": [],
                                 "calendar": [],
-                                "active_deck": "INT",
                                 "occupation" : {
                                         "situation" : "",
                                         "job" : "",

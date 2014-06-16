@@ -9,22 +9,24 @@ require(["OObject", "LocalStore", "service/map", "Amy/Stack-plugin", "Bind.plugi
     function(Widget, LocalStore, Map, Stack, Model, Place, Event, Dock, Login, Config, Utils, Promise, Confirm) {
         
         //declaration
-        var _body = new Widget(), _stack = new Stack({}), _dock = new Dock(),
-        _login = new Login(_body.init, _body.reload, _local),
-        _local = new LocalStore(),
-        updateLabels = Utils.updateLabels,
-        checkServerStatus = Utils.checkServerStatus, 
-        _labels = Config.get("labels"), _db = Config.get("db"), 
-        _transport = Config.get("transport"), _user = Config.get("user"), _currentVersion;
-
-        _currentVersion = Config.get("version");
+        var _body = new Widget(),
+              _stack = new Stack({}),
+              _dock = new Dock(),
+              _login,
+              _local = new LocalStore(),
+              updateLabels = Utils.updateLabels,
+              checkServerStatus = Utils.checkServerStatus,
+              _labels = Config.get("labels"),
+              _db = Config.get("db"),
+              _transport = Config.get("transport"),
+              _user = Config.get("user"),
+              _currentVersion = Config.get("version");
         
         // SETUP
         
         // init logic
         _body.startDock = function startDock(firstStart){
                 document.getElementById("main").classList.add("main");
-                document.getElementById("logo").classList.remove("invisible");
                 _stack.getStack().show("#dock");
                 _dock.start(firstStart);         
         };
@@ -53,17 +55,17 @@ require(["OObject", "LocalStore", "service/map", "Amy/Stack-plugin", "Bind.plugi
                         return lblUpdate;
                 })
                 .then(function(){
-                        var loadAvatar = new Promise();      
-                         // get user avatar and labels if necessary
-                         if (_user.get("picture_file").search("img/avatars/deedee")>-1){
+                        var loadAvatar = new Promise();
+                        // get user avatar and labels if necessary
+                        if (_user.get("picture_file").search("img/avatars/deedee")>-1){
                                 Config.set("avatar", _user.get("picture_file"));
-                                loadAvatar.fulfill(); 
-                         }
-                         else if (_local.get("userAvatar")){
-                                 Config.set("avatar", _local.get("userAvatar"));
-                                 loadAvatar.fulfill();
-                         }
-                         else{
+                                loadAvatar.fulfill();
+                        }
+                        else if (_local.get("userAvatar")){
+                                Config.set("avatar", _local.get("userAvatar"));
+                                loadAvatar.fulfill();
+                        }
+                        else{
                                 _transport.request("GetFile", {dir: "avatars", "filename":_user.get("_id")+"_@v@t@r"}, function(result){
                                         if (!result.error) {
                                                 Config.set("avatar", result);
@@ -73,14 +75,14 @@ require(["OObject", "LocalStore", "service/map", "Amy/Stack-plugin", "Bind.plugi
                                                 Config.set("avatar", "img/avatars/deedee1.png");
                                         }
                                         loadAvatar.fulfill();
-                                });         
+                                });
                         }
                         return loadAvatar;
                 })
                 .then(function(){
                         _dock.init();
                         _login.stopSpinner();
-                        _body.startDock(firstStart);        
+                        _body.startDock(firstStart);
                 });      
         };
         
@@ -101,23 +103,23 @@ require(["OObject", "LocalStore", "service/map", "Amy/Stack-plugin", "Bind.plugi
                                         lblUpdate.fulfill();
                                 });
                         }
-                        else {lblUpdate.fulfill();}
+                        else lblUpdate.fulfill();
                         return lblUpdate;
                 })
                 .then(function(){
-                        var loadAvatar = new Promise();      
-                         // get user avatar and labels if necessary
-                         if (_user.get("picture_file").search("img/avatars/deedee")>-1){
+                        var loadAvatar = new Promise();
+                        // get user avatar and labels if necessary
+                        if (_user.get("picture_file").search("img/avatars/deedee")>-1){
                                 Config.set("avatar", _user.get("picture_file"));
-                                loadAvatar.fulfill(); 
-                         }
-                         else if (_local.get("userAvatar")){
-                                 Config.set("avatar", _local.get("userAvatar"));
-                                 loadAvatar.fulfill();
-                         }
-                         else{
+                                loadAvatar.fulfill();
+                        }
+                        else if (_local.get("userAvatar")){
+                                Config.set("avatar", _local.get("userAvatar"));
+                                loadAvatar.fulfill();
+                        }
+                        else{
                                 _transport.request("GetFile", {dir: "avatars", "filename":_user.get("_id")+"_@v@t@r"}, function(result){
-                                        if (!result.error) {
+                                        if (!result.error){
                                                 Config.set("avatar", result);
                                         }
                                         else {
@@ -150,7 +152,7 @@ require(["OObject", "LocalStore", "service/map", "Amy/Stack-plugin", "Bind.plugi
                 "place": new Place({confirm: Confirm})
         });
         
-        _body.template = '<div id="main"><div data-stack="destination"></div><div data-place="place:confirm"></div><div id="logo" class="invisible"></div></div>';
+        _body.template = '<div id="main"><div data-stack="destination"></div><div data-place="place:confirm"></div></div>';
         
         _body.place(document.body);
         
@@ -222,7 +224,7 @@ require(["OObject", "LocalStore", "service/map", "Amy/Stack-plugin", "Bind.plugi
          */       
         Config.get("observer").watch("signout", function(){
                 // disconnect socket (will change presence status)
-               Config.get("socket").disconnect();
+                Config.get("socket").disconnect();
                 // clear local store
                 _local.set("currentLogin", "");
                 _local.set("userAvatar", "");

@@ -1,4 +1,4 @@
-/**
+/*
  * https://github.com/IDEAFY/Ideafy
  * Proprietary License - All rights reserved
  * Author: Vincent Weyl <vincent@ideafy.com>
@@ -40,7 +40,7 @@ define(["OObject", "service/map", "Bind.plugin", "Event.plugin", "service/config
                                         types[arr[i].username] = arr[i].type;      
                                 }
                                 usernames.sort().forEach(function(value){
-                                        _contactList.alter("push", {username: value, type: types[value]});
+                                        _contactList.alter("push", {username: value, type: types[value], selected: false});
                                 });
                                 
                                 // get current list
