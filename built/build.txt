@@ -3,9 +3,9 @@ main.js
 ----------------
 requireLib.js
 lib/socket.io.min.js
-lib/CouchDBTools.js
 lib/Emily.min.js
 lib/Olives.min.js
+lib/CouchDBTools.js
 lib/amy2.js
 lib/spin.min.js
 service/map.js
