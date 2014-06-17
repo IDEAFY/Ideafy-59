@@ -48,7 +48,7 @@ var _CouchDBDocument, _CouchDBUser, _Promise,
                       promise = new _Promise(),
                       userPath = "/_users/org.couchdb.user:"+user,
                       cookieJSON = _cookie.parse(json.handshake.headers.cookie),
-                      sessionID = cookieJSON["ideafy.sid"].split("s:")[1].split(".")[0] ;
+                      sessionID = cookieJSON["ideafy59.sid"].split("s:")[1].split(".")[0] ;
         
                 _transport.request("CouchDB", {
                         method : "GET",
@@ -108,7 +108,7 @@ var _CouchDBDocument, _CouchDBUser, _Promise,
                                 
                                 // add credentials to the cookie
                                 var cookieJSON = _cookie.parse(json.handshake.headers.cookie), 
-                                    sessionID = cookieJSON["ideafy.sid"].split("s:")[1].split(".")[0];
+                                    sessionID = cookieJSON["ideafy59.sid"].split("s:")[1].split(".")[0];
                                 _sessionStore.get(sessionID, function(err, session) {
                                         if (err) {
                                                 throw new Error(err);
@@ -221,7 +221,7 @@ var _CouchDBDocument, _CouchDBUser, _Promise,
                     sessionID ,
                     cdb = new _CouchDBDocument();
                     
-                if (cookieJSON["ideafy.sid"]) sessionID = cookieJSON["ideafy.sid"].split("s:")[1].split(".")[0];
+                if (cookieJSON["ideafy59.sid"]) sessionID = cookieJSON["ideafy59.sid"].split("s:")[1].split(".")[0];
                 
                 // return false if document does not exist in database
                 _getDocAsAdmin(json.id, cdb).then(function(){
@@ -281,7 +281,7 @@ var _CouchDBDocument, _CouchDBUser, _Promise,
                         
                         if (!result.error) {
                                 var cookieJSON = _cookie.parse(json.handshake.headers.cookie), 
-                                    sessionID = cookieJSON["ideafy.sid"].split("s:")[1].split(".")[0],
+                                    sessionID = cookieJSON["ideafy59.sid"].split("s:")[1].split(".")[0],
                                     cdb = new _CouchDBDocument();
                                 
                                 _sessionStore.get(sessionID, function(err, session) {
