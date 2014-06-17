@@ -1,8 +1,0 @@
-/*
- * https://github.com/IDEAFY/Ideafy
- * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent@ideafy.com>
- * Copyright (c) 2014 IDEAFY LLC
- */
-
-define(["OObject","service/config","CouchDBView","Bind.plugin","Event.plugin","Store"],function(e,t,s,i,n,a){return function(){var o=new e,c=new s,r=t.get("user"),l=t.get("labels"),d=new a([]);return o.plugins.addAll({label:new i(l),howto:new i(d),howtoevent:new n(o)}),o.template='<div class="aboutcontent"><div id="userguidetoc"><legend data-label="bind:innerHTML, toc"></legend><ul data-howto="foreach"><li><span data-howto="bind: innerHTML, title" data-howtoevent="listen: mousedown, press; listen:mouseup, goto"></span></li></ul></div><br/><ul data-howto="foreach"><li data-howto="bind:id, _id"><legend data-howto="bind:innerHTML, title"></legend><p data-howto="bind: innerHTML, body"></p><span class="backtotop" data-label="bind:innerHTML, backtotop" data-howtoevent="listen: mousedown, backToTop"></span></li></ul></div>',o.press=function(e,t){t.setAttribute("style","font-weight: bold;")},o.goto=function(e,t){var s=t.getAttribute("data-howto_id"),i=d.get(s)._id;t.setAttribute("style","font-weight: normal;"),document.getElementById(i).scrollIntoView()},o.backToTop=function(){document.getElementById("userguidetoc").scrollIntoView()},c.setTransport(t.get("transport")),o.fetch=function(e){c.reset([]),d.reset([]),c.sync(t.get("db"),"about","_view/howto").then(function(){c.loop(function(t){t.value.default_lang!==e&&t.value.translations[e]?d.alter("push",t.value.translations[e]):d.alter("push",t.value)}),c.unsync()})},o.fetch(r.get("lang")),r.watchValue("lang",function(){o.fetch(r.get("lang"))}),o}});

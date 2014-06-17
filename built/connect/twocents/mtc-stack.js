@@ -1,8 +1,0 @@
-/*
- * https://github.com/IDEAFY/Ideafy
- * Proprietary License - All rights reserved
- * Author: Vincent Weyl <vincent@ideafy.com>
- * Copyright (c) 2014 IDEAFY LLC
- */
-
-define(["OObject","service/map","Amy/Stack-plugin","Bind.plugin","./mtc-details","./mtq-details","service/config","Store"],function(e,t,s,i,n,a,o){return function(){var t=new e,r=new e,c=o.get("labels"),l=new s;return t.template='<div id = "mtcdetailstack" data-mtcdetailstack = "destination"></div>',t.plugins.addAll({mtcdetailstack:l}),t.setView=function(e){var t=l.getStack().getCurrentName();"2Q"===e&&"twoqdetail"!==t?l.getStack().show("twoqdetail"):"2C"===e&&"twocdetail"!==t?(l.getStack().get("twocdetail").reset(),l.getStack().show("twocdetail")):l.getStack().show("defaultPage")},t.reset=function(e,t){"2Q"===e&&t&&(l.getStack().get("twoqdetail").reset(t),l.getStack().show("twoqdetail")),"default"!==e&&t||l.getStack().show("defaultPage")},r.template='<div class="msgsplash"><div class="header blue-dark" data-labels="bind: innerHTML, twocentview"><span></span></div><div class="innersplash" data-labels="bind: innerHTML, twocentcenter"></div></div>',r.plugins.add("labels",new i(c)),t.init=function(e,t){var s=new a,i=new n;l.getStack().add("twoqdetail",s),l.getStack().add("twocdetail",i),l.getStack().add("defaultPage",r),"default"===e&&l.getStack().show("defaultPage"),"2Q"===e&&(l.getStack().show("twoqdetail"),twoQDetail.reset(t))},t}});
