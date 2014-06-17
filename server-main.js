@@ -100,7 +100,7 @@ var handlers = new Store(),
                 .use(connect.cookieParser())
                 .use(connect.session({
                         secret : "olives&vin2012AD",
-                        key : "ideafy.sid",
+                        key : "ideafy59.sid",
                         store : sessionStore,
                         cookie : {
                                 maxAge : 864000000,
