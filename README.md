@@ -218,7 +218,27 @@ All javascript files/modules are concatenated and minified in the ./built/main.j
 Copy main.js file to target directory and add the script to the appropriate index file (e.g. index-defautl.html or index-touch.html).
 
 
+-- ABOUT THE IPAD APPLICATION
 
+This repository contains the code to build and deploy Ideafy on an iPad using Xcode.
+The iPad version is built using Phonegap : this allows to largely reuse the same code base as for the browsers and make the necessary adjustments such as:
+- replacing mouse events with touch events
+- managing file uploads (use of camera and photo library)
+- presentation and CSS parameters 
+The javascript and css code for the iPad application is available under public/js-ios and public/css respectively. Only the minified versions are used in the Xcode project.
+The main phonegap configuration is in the config.xml file.
+The iPad version features splash screens and icons located in the Images.xcassets directory.
+Refer to the phonegap documentation to build a project from scratch (that will create the environment for the selected platform(s) and add the selected plugin(s).
+
+
+==========================
+Update Monday 6/17 @ 7:15pm
+
+This contains all the deliverables submitted by the Ideafy team for 59daysofcode.
+About 80% of the tasks have been completed (the most notable exception is the refactoring of the client-side to get rid of requirejs).
+We decided it was a risky endeavor in such a short timeframe, with little visible gain in the short term : all the modules and files (134 files) would be affected and the build process would be completely changed.
+
+Big thanks to Olivier and Rudy for their contributions !!!
 
 
 
